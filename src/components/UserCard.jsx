@@ -1,17 +1,18 @@
 const UserCard = ({ user }) => {
-  console.log(user);
-
   const { firstName, lastName, photoUrl, about, skills, age, gender } = user;
 
   return (
-    <div className="card bg-amber-400 w-80 shadow-sm pt-5 text-black">
+    <div className="card bg-amber-400 w-80 shadow-sm text-black">
       <figure>
-        <img src={photoUrl} alt="photo" className="h-70 w-70 rounded" />
+        <img src={photoUrl} alt="photo" className="h-80 w-80 rounded rounded-b-none" />
       </figure>
       <div className="card-body">
         <div className="flex items-baseline justify-between -mt-3">
           <h2 className="card-title font-bold text-2xl ">{firstName + " " + lastName}</h2>
-          {age && gender && <div className="text-[16px]">{age + ", " + gender}</div>}
+          <div className="text-[16px]">
+            {age}
+            {gender && gender !== "" ? `, ${gender}` : ""}
+          </div>{" "}
         </div>
         {skills && skills.length > 0 && (
           <div className="flex flex-wrap gap-2 my-1">
