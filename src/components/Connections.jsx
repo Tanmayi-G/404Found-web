@@ -26,12 +26,10 @@ const Connections = () => {
     return (
       <div className="my-10 text-center">
         <h1 className="font-bold text-3xl text-amber-500">Connections</h1>
-        {connections?.length === 0 && (
-          <div className="mt-45">
-            <p className="text-lg text-gray-500 mb-2">You do not have any connections yet!</p>
-            <p className="text-base text-gray-500">Send a request to get started.</p>
-          </div>
-        )}
+        <div className="mt-45">
+          <p className="text-lg text-gray-500 mb-2">You do not have any connections yet!</p>
+          <p className="text-base text-gray-500">Send a request to get started.</p>
+        </div>
       </div>
     );
   }
@@ -40,12 +38,12 @@ const Connections = () => {
     <div className="my-10 text-center">
       <h1 className="font-bold text-3xl text-amber-500">Connections</h1>
 
-      <ul className="list bg-base-300 m-4 p-4 rounded-lg shadow-md w-1/2 mx-auto">
-        {connections.map((connection, index) => {
-          const { firstName, lastName, age, gender, about, photoUrl, skills } = connection;
+      <ul className="list bg-base-300 m-4 p-4 rounded-lg shadow-md w-1/2 mx-auto mt-7 mb-20">
+        {connections.map((connection) => {
+          const { _id, firstName, lastName, age, gender, about, photoUrl, skills } = connection;
 
           return (
-            <li key={index} className="list-row">
+            <li key={_id} className="list-row">
               <div>
                 <img className="size-20 rounded-box" src={photoUrl} />
               </div>
@@ -58,7 +56,7 @@ const Connections = () => {
                   {gender && gender !== "" ? `, ${gender}` : ""}
                 </p>
                 {skills && skills.length > 0 && (
-                  <div className="flex flex-wrap gap-2 my-2">
+                  <div className="flex flex-wrap gap-2 my-3">
                     {skills.map((skill, index) => (
                       <span key={index} className="bg-white text-black text-xs font-medium px-2 py-1 rounded-full shadow-sm">
                         {skill}
