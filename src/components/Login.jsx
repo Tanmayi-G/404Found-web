@@ -5,9 +5,12 @@ import { addUser } from "../utils/userSlice";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../utils/constants";
 
-const Login = () => {
+const Login = ({ isLogin: defaultIsLogin }) => {
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [emailId, setEmailId] = useState("");
   const [password, setPassword] = useState("");
+  const [isLogin, setIsLogin] = useState(defaultIsLogin ?? true);
   const [error, setError] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -29,10 +32,29 @@ const Login = () => {
     }
   };
 
+  const handleSignUp = async () => {
+    try {
+      const res = await axios.post(
+        BASE_URL + "/signup",
+        {
+          firstName,
+          lastName,
+          emailId,
+          password,
+        },
+        { withCredentials: true }
+      );
+      dispatch(addUser(res?.data?.data));
+      navigate("/profile");
+    } catch (err) {
+      setError(err?.response?.data || "Something went wrong");
+    }
+  };
+
   return (
-    <div className="flex justify-evenly mt-10">
+    <div className="flex justify-evenly items-center mt-10">
       <div className="relative">
-        <img src="/login-bg.svg" alt="Abstract illustration" className="h-[70vh] opacity-30" />
+        <img src={isLogin ? "/login-bg.svg" : "/signup-bg.svg"} alt="Abstract illustration" className="h-[70vh] opacity-30" />
 
         <div className="absolute top-0 left-0 w-full h-full flex flex-col justify-center items-center text-center">
           <h1 className="text-5xl font-bold text-white cursor-default">
@@ -51,19 +73,41 @@ const Login = () => {
         </div>
       </div>
 
-      <div className="flex justify-center h-full pt-25">
-        <div className="card bg-amber-400 text-black w-96 shadow-sm rounded-4xl p-5">
+      <div className="flex justify-center h-full">
+        <div className="card bg-amber-400 text-black w-96 shadow-sm rounded-4xl px-3 py-2">
           <div className="card-body">
-            <h2 className="card-title justify-center mb-5 text-xl">Login to continue</h2>
+            <h2 className="card-title justify-center text-2xl font-bold">{isLogin ? "Welcome back!" : "Get started!"}</h2>
+            <p className="card-title justify-center text-md mb-3">{isLogin ? "Login to continue" : "Create an account now"}</p>
+            {!isLogin && (
+              <>
+                {" "}
+                <div className="pb-1">
+                  <label className="input bg-white rounded-4xl w-full">
+                    <svg className="h-[1em] opacity-70" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                      <g strokeLinejoin="round" strokeLinecap="round" strokeWidth="2.5" fill="none" stroke="currentColor">
+                        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                      </g>
+                    </svg>
+                    <input type="text" required placeholder="First Name" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
+                  </label>
+                </div>
+                <div className="pb-1">
+                  <label className="input bg-white rounded-4xl w-full">
+                    <svg className="h-[1em] opacity-70" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 7h10M7 11h10M7 15h6M5 3h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2z" />
+                    </svg>
+                    <input type="text" required placeholder="Last Name" value={lastName} onChange={(e) => setLastName(e.target.value)} />
+                  </label>
+                </div>{" "}
+              </>
+            )}
             <div className="pb-1">
               <label className="input bg-white rounded-4xl w-full">
-                <svg className="h-[1em] opacity-70" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                  <g strokeLinejoin="round" strokeLinecap="round" strokeWidth="2.5" fill="none" stroke="currentColor">
-                    <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
-                    <circle cx="12" cy="7" r="4"></circle>
-                  </g>
+                <svg className="h-[1em] opacity-70" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 21 22" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8m0 8a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h14a2 2 0 012 2v8z" />
                 </svg>
-                <input type="text" required placeholder="Email" value={emailId} onChange={(e) => setEmailId(e.target.value)} />
+                <input type="email" required placeholder="Email" value={emailId} onChange={(e) => setEmailId(e.target.value)} />
               </label>
             </div>
             <div className="pb-2">
@@ -77,12 +121,39 @@ const Login = () => {
                 <input type="password" required placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
               </label>
             </div>
-            <p className="text-red-600 font-semibold mb-2">{error}</p>
+            <p className="text-red-600 font-semibold ">{error}</p>
             <div className="card-actions justify-center">
-              <button className="btn btn-active w-full rounded-4xl transition duration-300 transform hover:scale-105 hover:shadow-lg" onClick={handleLogin}>
-                Login
+              <button className="btn btn-active w-full rounded-4xl transition duration-300 transform hover:scale-105 hover:shadow-lg mb-2" onClick={isLogin ? handleLogin : handleSignUp}>
+                {isLogin ? "Log In" : "Sign Up"}
               </button>
             </div>
+            {isLogin ? (
+              <p className="text-center">
+                Don't have an account?{" "}
+                <span
+                  className="font-bold cursor-pointer"
+                  onClick={() => {
+                    setIsLogin((value) => !value);
+                    navigate("/signup");
+                  }}
+                >
+                  Sign Up
+                </span>
+              </p>
+            ) : (
+              <p className="text-center">
+                Already have an account?{" "}
+                <span
+                  className="font-bold cursor-pointer"
+                  onClick={() => {
+                    setIsLogin((value) => !value);
+                    navigate("/login");
+                  }}
+                >
+                  Log In
+                </span>
+              </p>
+            )}
           </div>
         </div>
       </div>

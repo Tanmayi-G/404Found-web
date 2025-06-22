@@ -16,7 +16,8 @@ function App() {
           <Routes>
             <Route path="/" element={<Body />}>
               <Route path="/" element={<Feed />} />
-              <Route path="/login" element={<Login />} />
+              <Route path="/login" element={<Login isLogin={true} />} />
+              <Route path="/signup" element={<Login isLogin={false} />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/connections" element={<Connections />} />
               <Route path="/requests" element={<Requests />} />
