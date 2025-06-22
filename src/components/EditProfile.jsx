@@ -35,7 +35,7 @@ const EditProfile = ({ user }) => {
 
   return (
     <div className="flex justify-center mb-10 mt-3">
-      <div className="flex justify-evenly mx-10">
+      <div className="flex justify-evenly -ml-55 mr-10">
         <fieldset className="fieldset bg-base-300 border-base-400 rounded-box border p-4 px-6 w-[500px] sm:w-[600px]">
           <legend className="fieldset-legend text-xl text-amber-400 font-bold">Edit your profile</legend>
 

@@ -18,7 +18,7 @@ const Feed = () => {
       });
       dispatch(addFeed(res.data));
     } catch (err) {
-      setError(err);
+      setError(err.message || "Something went wrong");
     }
   };
 
@@ -26,12 +26,24 @@ const Feed = () => {
     getFeed();
   }, []);
 
-  return (
-    feed && (
-      <div className="flex justify-center my-10">
-        <UserCard user={feed[0]} />
+  if (!feed) return null;
+  if (feed.length === 0) {
+    return (
+      <div className="my-10 mt-45 text-center">
+        <p className="text-lg text-gray-500 mb-2">No new users available</p>
       </div>
-    )
+    );
+  }
+
+  return (
+    <div className="flex justify-center my-14">
+      {feed
+        .slice(0)
+        .reverse()
+        .map((user, index) => (
+          <UserCard key={user._id} user={user} index={index} total={feed.length} />
+        ))}
+    </div>
   );
 };
 
