@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { removeUserFromFeed } from "../utils/feedSlice";
 import { motion, useAnimation } from "framer-motion";
 
-const UserCard = ({ user, index, total }) => {
+const UserCard = ({ user, index = 0, total = 1 }) => {
   const dispatch = useDispatch();
   const controls = useAnimation();
   const { _id, firstName, lastName, photoUrl, about, skills, age, gender } = user;

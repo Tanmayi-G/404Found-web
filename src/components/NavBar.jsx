@@ -54,9 +54,6 @@ const NavBar = () => {
                   </Link>
                 </li>
                 <li>
-                  <Link to="/settings">Settings</Link>
-                </li>
-                <li>
                   <button onClick={handleLogout} className="text-left w-full">
                     Logout
                   </button>
