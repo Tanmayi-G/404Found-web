@@ -50,7 +50,11 @@ const NavBar = () => {
                 <li>
                   <Link to="/profile" className="justify-between">
                     Profile
-                    <span className="badge badge-sm bg-amber-500 border-none text-white">New</span>
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/premium" className="justify-between">
+                    Get Premium ✨<span className="badge badge-sm bg-amber-500 border-none text-white">New!</span>
                   </Link>
                 </li>
                 <li>
