@@ -39,7 +39,28 @@ const Premium = () => {
       { withCredentials: true }
     );
 
+    const { keyId, amount, currency, orderId, notes } = order.data;
+
     //open up razorpay payment dialog box
+    var options = {
+      key: keyId,
+      amount,
+      currency,
+      name: "404 Found",
+      description: "Build your network",
+      image: "/favicon.png",
+      order_id: orderId,
+      prefill: {
+        name: `${notes.firstName} ${notes.lastName}`,
+        email: `${notes.emailId}`,
+      },
+      theme: {
+        color: "#FFB900",
+      },
+    };
+
+    var rzp1 = new window.Razorpay(options);
+    rzp1.open();
   };
 
   return (
